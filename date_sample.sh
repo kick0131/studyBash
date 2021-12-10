@@ -40,6 +40,12 @@ datesample()
   echo $target_date $expire_date
 
   # 日付の差分
+  # 切り捨てが発生する為、0が2日分出る
+  #
+  # ex) 1/3 02:00:00を超過基準とした場合
+  # 1/1 01:00:00 1日と2H超過日 : 1
+  # 1/2 04:00:00 23H超過       : 0
+  # 1/3 03:00:00 1H超過        : 0
   period_day=`expr \( $target_date_sec - $expire_date_sec \) / 60 / 60 / 24`
   echo $period_day
   # 日数超過判定
