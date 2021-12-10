@@ -21,3 +21,31 @@ dir_dateformatcheck()
   done
 }
 
+#
+# 日付ディレクトリ名から日数超過を判定
+#
+datesample()
+{
+  # 超過日数
+  EXPIRE=10
+
+  # 判定対象
+  target_date=`date '+%Y%m%d'`
+  target_date=`date '+%Y%m%d' -d "2021/10/01"`
+
+  # 超過基準の日付
+  expire_date=`date '+%Y%m%d' -d "$EXPIRE day ago"`
+  expire_date_sec=`date -d"$expire_date" +%s`
+  target_date_sec=`date -d"$target_date" +%s`
+  echo $target_date $expire_date
+
+  # 日付の差分
+  period_day=`expr \( $target_date_sec - $expire_date_sec \) / 60 / 60 / 24`
+  echo $period_day
+  # 日数超過判定
+  if [ $period_day -le 0 ]; then
+    echo "$target_date is expire"
+  else
+    echo "$target_date is not expire"
+  fi
+}
